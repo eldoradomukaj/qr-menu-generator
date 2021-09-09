@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="NoMenu is a QR code based restaurant menu creation application">
+
+    <!-- Title Page-->
+    <title>NoMenu - Dashboard</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="{% static 'dashboard/css/font-face2.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'dashboard/vendor/font-awesome/css/fontawesome-all.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'dashboard/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="{% static 'dashboard/vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'dashboard/vendor/animsition/animsition.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'dashboard/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'dashboard/vendor/wow/animate.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'dashboard/vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'dashboard/vendor/slick/slick.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'dashboard/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'dashboard/vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'dashboard/css/theme.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'dashboard/css/custom.css' %}" rel="stylesheet" media="all">
+
+
+    <link href="{% static 'css/dropzone.min.css' %}" rel="stylesheet" media="all">
+
+</head>
+
+<body class="animsition " data-animsition-in-duration="200" data-animsition-out-duration="200">
+
+    <div class="page-wrapper">
+        {% include 'dashboard/nav_mobile.html' %}
+
+        {% include 'dashboard/sidebar.html' %}
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+
+        {% include 'dashboard/nav_desktop.html' %}
+        
+        {% block content %}
+
+        {% endblock %}
+        </div>
+
+    </div>
+    
+    <!-- Jquery JS-->
+    <script src="{% static 'dashboard/vendor/jquery-3.2.1.min.js' %}"></script>
+
+    
+    <!-- Bootstrap JS-->
+    <script src="{% static 'dashboard/vendor/bootstrap-4.1/popper.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendor/bootstrap-4.1/bootstrap.min.js' %}"></script>
+
+    <!-- Vendor JS       -->
+    <script src="{% static 'dashboard/vendor/slick/slick.min.js' %}">
+    </script>
+    <script src="{% static 'dashboard/vendor/wow/wow.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendor/animsition/animsition.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js' %}">
+    </script>
+    <script src="{% static 'dashboard/vendor/counter-up/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendor/counter-up/jquery.counterup.min.js' %}">
+    </script>
+    <script src="{% static 'dashboard/vendor/circle-progress/circle-progress.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendor/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'dashboard/vendor/momentjs/moment.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendor/chartjs/Chart.bundle.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendor/select2/select2.min.js' %}"></script>
+
+    <!-- Main JS-->
+    <script src="{% static 'dashboard/js/main.js' %}"></script>
+    <script src="{% static 'js/dropzone.min.js' %}"></script>
+
+
+    {% block extra_scripts %}{% endblock %}
+
+    <script>
+        $('.sufee-alert').fadeIn('fast').delay(3000).fadeOut();
+    </script>
+
+{% block extra_scripts2 %} {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block content %}
+<div id="page-wrapper">
+    <!-- Main -->
+        <div id="main" class="wrapper style3">
+            <div class="container">
+                <header class="major"><h2>Sign Up</h2></header>
+
+                <!-- Content -->
+                    <section id="content">
+                        
+
+                        <form action="" method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="row gtr-uniform gtr-50 aln-center">
+                            <div class="col-6 col-12-xsmall">
+                                
+                                <div>
+                                    {% if wizard.steps.current == '1' %}
+                                    <p><b>Enter your restaurant information:</b></p>
+                                    {% endif %}
+
+                                    {{ wizard.management_form }}
+                                    {% if wizard.form.forms %}
+                                        {{ wizard.form.management_form }}
+                                        
+                                        {% for form in wizard.form.forms %}
+                                            {{ form }}
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for field in wizard.form %}
+                                            <p>
+                                                {{ field }}
+                                                
+                                                    {% for error in field.errors %}
+                                                    <span class="help-block">{{ error }}</span>
+                                                    {% endfor %}
+                                                
+
+                                            </p>
+
+
+                                        {% endfor %}
+                                        
+                                    {% endif %}
+
+                                </div>
+                                    <br>
+                                    {% if wizard.steps.next %}
+                                    <input type="submit" value="{% trans "next" %}" class="primary fit" />
+                                    {% endif %}
+
+                                    {% if wizard.steps.next == None %}
+                                        <input type="submit" value="{% trans "submit" %}" class="primary fit" />
+                                    {% endif %}
+                        
+                                    <br><br>
+                                    
+                                    {% if wizard.steps.prev %}
+                                    <button class="button back" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}"><p style="font-size: 15px;font-weight: bold;"><span class="icon solid fa-arrow-left"></span> Back</p></button>
+                                    {% endif %}
+                                    <span style="float:right;">Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</span>
+                                    <br>
+                                    <br>
+                                    <p>Already have an account? <a href="{% url 'account_login' %}">Login</a></p>
+                            </div>
+                        </div>
+
+
+                        
+                        
+
+
+
+                        </form>
+
+                    </section>
+
+            </div>
+        </div>
+</div>
+{% endblock %}

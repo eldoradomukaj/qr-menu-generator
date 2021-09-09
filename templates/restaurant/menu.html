@@ -1,0 +1,139 @@
+{% extends 'restaurant/base.html' %}
+{% load static %}
+
+{% block top-bar %} 
+<div class="topbar">
+  <div class="container">
+    <a href="#" data-toggle="modal" data-target="#bug-report-modal"><i style="font-size: 20px;" class="fas fa-bug"></i></a>
+    <a href="#" data-toggle="modal" data-target="#info-modal"><i style="font-size: 20px;" class="fas fa-info-circle"></i></a>
+  </div>
+</div>
+
+{% for message in messages %}
+<div class="topbar {{ message.tags }}">
+  <div class="container d-flex align-items-center h-100">
+    <p class="text-light m-0">{{ message }}</p>
+  </div>
+</div>
+{% endfor %}
+
+<div class="favorite-button-container">
+    <div class="favorite-overlay"></div>
+    <a href="{% url 'favorites' obj.cust_pk %}" class="favorite-button">View Favorites</a>
+</div>
+{% endblock %}
+
+{% block extra_scripts %} 
+    <script>
+        var favoritesURL = "{% url 'add-favorites' pk=obj.cust_pk %}";
+
+        {% if fav_items %}
+            $(document).ready(function(){
+                $('.favorite-button-container').show();
+            });
+        {% endif %}
+    </script>
+    <script src="{% static 'restaurant/favorites.js' %}"></script>
+
+{% endblock %}
+
+{% block cart-button %}
+<!--
+<div class="order-button-container">
+  <div class="order-overlay"></div>
+  <a href="{% url 'order' obj.cust_pk %}" class="order-button">View Order</a>
+</div>
+-->
+{% endblock cart-button %}
+
+{% block content %}
+
+
+
+
+<div class="modal fade" id="bug-report-modal" tabindex="-1" role="dialog" aria-labelledby="bug-report-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="bug-report-modal-label">Bug Report</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Found an issue? The NoMenu team would love to help fix it.</p>
+        <form method="post" id="bug-report-form">
+					{% csrf_token %}
+					{{ bug_report_form.message }}
+          <p><small>Note: A copy of your browser metadata will be sent alongside this report. This includes, but is not limited to, your browser version and operating system. Your IP address and other identifying information are not included.</small></p>
+          {{ bug_report_form.browser_data }}
+          <input class="btn btn-success" type="submit" value="Send">
+          <script>
+          $('#bug-report-form').on('submit', () => {
+            let browserData = "";
+            for (var property in window.navigator) {
+              browserData += `${property}: ${window.navigator[property]}\n`
+            }
+            $("#id_browser_data").val(browserData);
+          });
+          </script>
+				</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container mt-5">
+        <div class="text-center">
+        
+          {% if obj.rest_logo %}
+            <img src="{{ obj.rest_logo.url }}"  class="d-inline-block align-top" width="250px">
+          {% else %}
+            <h2>{{ obj.name }}</h2>
+          {% endif %}
+
+      </div>
+</div>
+
+{% if obj.is_live == True %}
+<div class="product-categories">
+    <section class="product-container">
+        <div class="product-content">
+            <ul class="product-grid">
+                <li class="product-wide" style="margin-bottom: 90px;">
+
+                    {% for category in categories %}
+                      {% if category.is_shown == True %}
+                      <a href="{% url 'category' obj.pk category.slug %}" class="gradient">
+                          <div class="category-details">
+                              {% if category.cat_img %}
+                              <div class="img-container" style="background-image: url(' {{ category.cat_img.url }} ');"></div>
+                              {% else %}
+                              <div class="img-container" style="background-image: url( '{% static 'images/DINNER.jpg' %}' );"></div>
+                              {% endif %}
+
+                              <div class="category-title">{{ category.cat_name|upper }}</div>
+                          </div>
+                      </a>
+                      {% endif %}
+                    {% endfor %}
+
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+{% else %}
+<div class="container mt-5">
+  <div class="text-center">
+    <h5>Sorry, this restaurant has not published their menu yet!</h5>
+  </div>
+</div>
+
+{% endif %}
+{% endblock %}
+
+{% block modal-content %}
+{% include 'restaurant/info_modal.html' %}
+{% endblock modal-content %}

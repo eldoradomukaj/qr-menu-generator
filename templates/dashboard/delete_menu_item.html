@@ -1,0 +1,34 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <strong class="card-title">Confirm Delete?</strong>
+            </div>
+            <div class="card-body">
+
+              <p>Are you sure you want to delete {{ item }}?</p>
+              <p>This action cannot be undone!</p>
+              <br>
+
+              <form method="POST" action="{% url 'delete-menu-item' item.id %}">{% csrf_token %}
+                <button class="btn btn-outline-danger" type="submit">Delete</button>
+                <a class="btn btn-outline-secondary" href="{% url 'managemenu'%}" type="button">Cancel</a>
+              </form>
+              
+              
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

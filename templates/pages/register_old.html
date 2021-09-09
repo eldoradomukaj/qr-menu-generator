@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+		<div id="page-wrapper">
+			<!-- Main -->
+				<div id="main" class="wrapper style1">
+					<div class="container">
+						<header class="major">
+							<h2>Sign Up</h2>
+						</header>
+
+						<!-- Content -->
+							<section id="content">
+								<form method="POST" action="" novalidate> {% csrf_token %}
+									<div class="row gtr-uniform gtr-50 aln-center">
+										
+										<div class="col-6 col-12-xsmall">
+											<a href="{% url 'index' %}"><p style="font-size: 15px;font-weight: bold;"><span class="icon solid fa-arrow-left"></span> Back</p></a>
+											<div>
+											{% for field in form %}
+											
+											{% render_field field class='register-form' placeholder=field.label %}
+											
+												<div class="{{field.label}}-errs {% if field.errors %} invalid{% endif %}">
+													{% for error in field.errors %}
+													<p class="help-block">{{ error }}</p>
+													{% endfor %}
+											  	</div>
+											  {% endfor %}
+											</div>
+											<br>
+											<input type="submit" value="Sign Up" class="primary fit" />
+											<br>
+											<br>
+											<p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+										</div>
+									</div>
+								</form>
+							</section>
+
+					</div>
+				</div>
+
+
+		</div>
+{% endblock %}

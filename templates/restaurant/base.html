@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172927976-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-172927976-1');
+    </script>
+
+    <title>{% block title %}{{ obj.name }}{% endblock %} - NoMenu</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'restaurant/main.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="{% static 'css/fontawesome-all.min.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+
+        function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        let device = getCookie('device');
+        if (device == null || device == undefined) {
+            device = uuidv4();
+        }
+        
+        document.cookie = 'device=' + device + ";SameSite=Lax;secure=True;domain=;path=/;max-age=" + 30*24*60*60;
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600&display=swap" rel="stylesheet"> 
+    <style>
+        .info-button {
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            text-align: center;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background-color: #FEFEFE;
+            padding: 10px;
+            border-radius: 50%;
+            font-size: 20px;
+            box-shadow: 2px 2px 10px #333333;
+            z-index: 1000;
+        }
+
+        .order-overlay {
+            position: absolute;
+            background: rgba(0, 0, 0, 0) linear-gradient(rgba(255, 255, 255, 0) 2.5%, rgba(255, 255, 255, 0.92) 55.35%) repeat scroll 0% 0%;
+            bottom: 0px;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: -1;
+        }
+
+        .order-button {
+            display: flex;
+            padding: 13px;
+            background-color: #293241;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px, rgba(0, 0, 0, 0.04) 0px 4px 4px;
+            color: #ffffff;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            font-family: 'Archivo Narrow';
+            border-radius: 4px;
+        }
+        .order-button-container {
+            padding: 12px;
+            position: fixed;
+            bottom: 0px;
+            z-index: 100;
+            left: 0px;
+            right: 0px;
+        }
+
+        .topbar {
+            background: #F9F9F9;
+            height: 45px;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+        .topbar a {
+            float: right;
+            text-align: center;
+            text-decoration: none;
+            padding: 11px;
+        }
+
+        .favorite-item {
+            color:rgb(224, 28, 28);
+        }
+        .favorite-item input {
+            display: none;
+        }
+        .favorite-item input ~ span {
+            cursor: pointer;
+        }
+        .favorite-item input ~ .checked {
+            display: none;
+        }
+        .favorite-item input:checked ~ .checked {
+            display: inline-block;
+        }
+        .favorite-item input:checked ~ .unchecked {
+            display: none;
+        }
+
+        .favorite-overlay {
+            position: absolute;
+            background: rgba(0, 0, 0, 0) linear-gradient(rgba(255, 255, 255, 0) 2.5%, rgba(255, 255, 255, 0.92) 55.35%) repeat scroll 0% 0%;
+            bottom: 0px;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: -1;
+        }
+
+        .favorite-button {
+            display: flex;
+            padding: 13px;
+            background-color: #293241;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px, rgba(0, 0, 0, 0.04) 0px 4px 4px;
+            color: #ffffff;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            font-family: 'Archivo Narrow';
+            border-radius: 4px;
+        }
+        .favorite-button-container {
+            display: none;
+            padding: 12px;
+            position: fixed;
+            bottom: 0px;
+            z-index: 100;
+            left: 0px;
+            right: 0px;
+        }
+    </style>
+</head>
+<body>
+    {% block top-bar %}
+    {% endblock top-bar %}
+
+    {% block cart-button %} {% endblock cart-button %}
+    {% block content %}
+
+    {% endblock %}
+
+    {% block modal-content %}
+    {% endblock modal-content %}
+</body>
+</html>

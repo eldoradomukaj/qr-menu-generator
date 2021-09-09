@@ -1,0 +1,48 @@
+{% extends 'dashboard/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="overview-wrap">
+                                    <h2 class="title-1">Account Overview</h2>
+                                </div>
+                            </div>
+                        </div>
+<br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fa fa-user"></i>
+                                        <strong class="card-title pl-2">Your Profile</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                            
+                                            {{ form.as_p }}
+                                        <input type="submit">
+                                        </form>
+                                        
+                                        <hr>
+                                        <div class="card-text text-sm-center">
+                                            <p>EDIT</p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- END MAIN CONTENT-->
+
+{% endblock %}

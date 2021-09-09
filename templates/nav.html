@@ -1,0 +1,43 @@
+{% load static %}
+<!-- Header -->
+            <header id="header">
+                
+                <a href="#banner" class="logo">
+                    <span class="symbol"><img src="{% static 'images/nomenu_logo.svg' %}"></span>
+                    <span class="logo-title">NoMenu</span>
+                </a>
+                <nav id="nav">
+                    <ul>
+                        <li><a href="#about-us">About Us</a></li>
+                        <li><a href="#benefits">Benefits</a></li>
+                        <li><a href="#how-it-works">How it Works</a></li>
+                        <li><a href="#contact-us">Contact Us</a></li>
+                        <!---
+                        <li>
+                            <a href="#">Layouts</a>
+                            <ul>
+                                <li><a href="left-sidebar.html">Left Sidebar</a></li>
+                                <li><a href="right-sidebar.html">Right Sidebar</a></li>
+                                <li><a href="no-sidebar.html">No Sidebar</a></li>
+                                <li>
+                                    <a href="#">Submenu</a>
+                                    <ul>
+                                        <li><a href="#">Option 1</a></li>
+                                        <li><a href="#">Option 2</a></li>
+                                        <li><a href="#">Option 3</a></li>
+                                        <li><a href="#">Option 4</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="elements.html">Elements</a></li> -->
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'dashboard' %}" class="button primary">Dashboard</a></li>
+                        <li><a href="{% url 'account_logout' %}" class="button primary">Logout</a></li>
+                        {% else %}
+                        <li><a href="{% url 'account_signup' %}" class="button">Sign Up</a></li>
+                        <li><a href="{% url 'account_login' %}" class="button">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </header>

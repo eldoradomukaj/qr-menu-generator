@@ -1,0 +1,37 @@
+<div class="modal fade" id="info-modal" tabindex="-1" role="dialog" aria-labelledby="info-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="info-modal-label">Restaurant Info</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h4>Address</h4>
+          <p>
+            {{ obj.address1 }}<br/>
+            {% if obj.address2 %}{{ obj.address2 }}<br/>{% endif %}
+            {{ obj.city }}, {{ obj.state }} {{ obj.zipcode }}<br/>
+            <a href="{{ obj.google_maps_url }}" target="_blank">View on Google Maps</a>
+          </p>
+          <h4>Contact</h4>
+          <p>
+            Email: <a href="mailto:{{ obj.owner.email }}">{{ obj.owner.email }}</a><br/>
+            Phone: <a href="tel:{{obj.phone}}">{{ obj.phone }}</a>
+            <!-- website? -->
+          </p>
+          <h4>Hours</h4>
+          <p>
+            Monday: {% if hours.monday %}{{ hours.monday_hours }}{% else %}Closed{% endif %}<br/>
+            Tuesday: {% if hours.tuesday %}{{ hours.tuesday_hours }}{% else %}Closed{% endif %}<br/>
+            Wednesday: {% if hours.wednesday %}{{ hours.wednesday_hours }}{% else %}Closed{% endif %}<br/>
+            Thursday: {% if hours.thursday %}{{ hours.thursday_hours }}{% else %}Closed{% endif %}<br/>
+            Friday: {% if hours.friday %}{{ hours.friday_hours }}{% else %}Closed{% endif %}<br/>
+            Saturday: {% if hours.saturday %}{{ hours.saturday_hours }}{% else %}Closed{% endif %}<br/>
+            Sunday: {% if hours.sunday %}{{ hours.sunday_hours }}{% else %}Closed{% endif %}<br/>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>

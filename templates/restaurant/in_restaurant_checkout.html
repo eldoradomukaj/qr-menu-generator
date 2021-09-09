@@ -1,0 +1,30 @@
+{% extends 'restaurant/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <br/>
+            <a href="{{ restaurant.get_absolute_url }}"><i class="fas fa-arrow-left"></i></a>
+            <br/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {% for field in order_form %}
+                    <label for="{{field.label}}">{{ field.label }}</label>
+                    {% render_field field class="form-control" placeholder=field.label %}
+                {% endfor %}
+    
+                <br><br>
+                <button type="submit" class="btn btn-success btn-lg btn-block">Order</button>
+            </form> 
+        </div>
+    </div>
+</div>
+{% endblock %}

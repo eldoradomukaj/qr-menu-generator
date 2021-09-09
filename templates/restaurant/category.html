@@ -1,0 +1,127 @@
+{% extends 'restaurant/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block top-bar %} 
+
+{% endblock %}
+
+{% block cart-button %}
+<div class="topbar">
+    <div class="container">
+      <a href="#" data-toggle="modal" data-target="#info-modal"><i style="font-size: 20px;" class="fas fa-info-circle"></i></a>
+    </div>
+</div>
+<!--
+<div class="order-button-container">
+    <div class="order-overlay"></div>
+    <a href="{% url 'order' obj.cust_pk %}" class="order-button">View Order</a>
+</div>
+-->
+
+<div class="favorite-button-container">
+    <div class="favorite-overlay"></div>
+    <a href="{% url 'favorites' obj.cust_pk %}" class="favorite-button">View Favorites</a>
+</div>
+
+{% endblock cart-button %}
+
+{% block extra_scripts %} 
+    <script>
+        var favoritesURL = "{% url 'add-favorites' pk=obj.cust_pk %}";
+        {% if fav_items %}
+            $(document).ready(function(){
+                $('.favorite-button-container').show();
+            });
+        {% endif %}
+    </script>
+    <script src="{% static 'restaurant/favorites.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+{% if obj.is_live == True %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a href=".." class="pr-3"><i class="fas fa-arrow-left mt-3"></i></a>
+                <h4 class="text-center" style="font-family: 'Archivo Narrow';">{{ category.cat_name|title }}</h4>
+                {% if category.description %}
+                <h6 class="text-center">{{ category.description }}</h6>
+                {% endif %}
+                <hr>
+                
+            </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 90px;">
+            
+            
+            {% for menu_item in menu_items %}
+                {% if menu_item.is_shown == True %}
+
+                <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
+                    <a class="card-link" href="{% url 'item' obj.pk category.slug menu_item.id %}">
+                        <div class="new-card">
+                            {% if menu_item.image_url %}
+                            <div class="thumb" width="350" height="240" style="background: url('{{ menu_item.image_url }}') no-repeat center;background-size: cover;"></div>
+                            {% elif menu_item.image %}
+                            <div class="thumb" style="background: url('{% thumbnail menu_item.image 350x240 upscale=True crop='smart' %}') no-repeat center;background-size: cover;"></div>
+                            {% else %}
+                            
+                            {% endif %}
+                            <div class="infos">
+                                <h5 class="title text-center">{{ menu_item.title | title }} </h5>
+                    </a>
+                                
+                                <hr class="new">
+                                <p>{{ menu_item.description | truncatewords:10 }}</p>
+                                <p style="color: rgb(156, 25, 25);"><small>{% if menu_item.allergens != "" %}Allergens: {{ menu_item.allergens | title }}{% endif %}</small></p>
+                                <hr >
+                                <div class="mt-2 mb-2">
+
+                                    
+                                    <label class="favorite-item">
+                                        <input type="checkbox" class="fav-item" name="favorites" data-id="{{ menu_item.id }}" {% if menu_item.id in fav_items %}checked{% endif %}>
+                                        <span class="far fa-heart unchecked"></span>
+                                        <span class="fas fa-heart checked"></span>
+                                    </label>
+                                    
+                                    {% if menu_item.price %}
+                                        <p class="pricing pt-0">{{ menu_item.priceString }}</p>
+                                    {% endif %}
+                                </div>
+                                
+                            </div>
+                        </div>
+                    
+                </div>
+
+                {% endif %}
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+{% else %}
+<div class="container mt-5">
+    <div class="text-center">
+      <h5>Sorry, this restaurant has not published their menu yet!</h5>
+    </div>
+  </div>
+{% endif %}
+
+
+{% endblock %}
+
+{% block modal-content %}
+{% include 'restaurant/info_modal.html' %}
+{% endblock modal-content %}

@@ -1,0 +1,53 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Bulk import | NoMenu admin</title>
+
+    <link href="{% static 'dashboard/vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet" media="all">
+</head>
+<body>
+    <div class="container text-center">
+        <h2 class="my-4">Bulk Import</h2>
+        <form enctype="multipart/form-data" action="{% url 'bulk_upload' %}" method="post">
+            {% csrf_token %}
+            <div class="row form-group">
+                <div class="col col-md-3">
+                    <label class="form-control-label">
+                        {{ form.restaurant.label }}
+                    </label>
+                </div>
+                <div class="col col-md-9">
+                    {% render_field form.restaurant class="form-control" %}
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">
+                    <label class="form-control-label">
+                        {{ form.cat_file.label }}
+                    </label>
+                </div>
+                <div class="col col-md-9">
+                    {% render_field form.cat_file class="form-control" %}
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">
+                    <label class="form-control-label">
+                        {{ form.menu_file.label }}
+                    </label>
+                </div>
+                <div class="col col-md-9">
+                    {% render_field form.menu_file class="form-control" %}
+                </div>
+            </div>
+            <input class="btn btn-success my-3" type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

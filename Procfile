@@ -1,0 +1,1 @@
+web: gunicorn NoMenu.wsgi --log-file -

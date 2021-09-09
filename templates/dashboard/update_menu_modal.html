@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+<form action="{% url 'update-menu-item' pk=object.pk %}" method="POST" enctype="multipart/form-data">
+    <div class="modal-body">
+        
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form-group">
+                {% render_field field class="form-control update-menu" placeholder=field.label %}
+            </div>
+
+            {% endfor %}
+                <br>
+                <p> OR </p>
+                <br>
+                <button class="btn btn-secondary btn-sm" id="uploadTriggerMenuUpdate">
+                    <i class="fa fa-picture-o"></i>
+                    Upload Image
+                </button>
+                <br>
+                <br>
+                <div id="menuitem-image-holder">
+                    {% if object.image %}
+                    <img width="150px" src="{{ object.image.url }}">
+                    <br>
+                    <a href="#" data-key="{{ object.pk }}" class="remove-image">Remove</a>
+                    {% endif %}
+                </div>
+            <div id="noImage" style="color:red;font-size: 13px;"></div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <input type="hidden" name="next" value="{% url 'category-add' object.category.slug %}">
+        <button type="submit" class="btn btn-primary">Confirm</button>
+        
+    </div>
+</form>        
+

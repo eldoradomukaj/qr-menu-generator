@@ -1,0 +1,45 @@
+<!-- Footer -->
+<footer id="footer">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-12 mb-5">
+                <ul class="icons">
+                    <li><a href="https://twitter.com/NoMenu2" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                    <!--<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>-->
+                </ul>
+            </div>
+
+            <!--<div class="col-lg-3 col-md-6 col-sm-8 align-left">
+                <h4 style="color:#FDFDFD">Newsletter</h4>
+                <p>Sign up to get the latest news!</p>
+                <input class="newsletter-signup" placeholder="E-Mail" type="text" aria-rowcount="1" aria-colcount="1">
+            </div>-->
+        </div>
+
+        <div class="row mb-5 d-flex justify-content-center">
+            <div class="col-lg-2 col-md-4 col-sm-5 align-left" style="margin-bottom: 15px;">
+                <h4 style="color:#FDFDFD">Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'account_login' %}">Log In</a></li>
+                    <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-9 align-left mb-5">
+                <h4 style="color:#FDFDFD">Support</h4>
+                <ul>
+                    <li><a href="{% url 'privacy-policy' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
+                    <!--<li><a href="#">Report a bug</a></li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <ul class="copyright">
+        <li>&copy; NoMenu. All rights reserved. {% now "Y" %}</li>
+    </ul>
+</footer>

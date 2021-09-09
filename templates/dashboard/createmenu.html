@@ -1,0 +1,120 @@
+{% extends 'dashboard/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        {% if messages %}
+                        {% for message in messages %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                            <div class="sufee-alert alert with-close alert-success alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            {% endif %}
+                            
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                            <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            {% endif %}
+
+                        {% endfor %}
+                        {% endif %}
+
+<br>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="overview-wrap">
+                                    <h2 class="title-1">Manage Menu</h2>
+                                </div>
+                            </div>
+                        </div>
+<br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">Add New Product</div>
+                                    <div class="card-body card-block">
+                                        <p>Select a category below to create a new menu item under that category.</p>
+                                        <br>
+                                        {% for category in categories %}
+                                        <a href="{% url 'category-add' id=category|slugify %}" class="btn btn-primary">{{ category|title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<hr>
+<br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive table-responsive-data2">
+                                    
+                                    <table class="table table-data2">
+                                        <thead>
+                                            <tr>
+                                                <th>Image</th>
+                                                <th>Item</th>
+                                                <th>Price</th>
+                                                <th>Description</th>
+                                                <th>Category</th>
+                                                <th>Hide / Unhide</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        
+                                            {% for i in menu %}
+                                            <tr class="tr-shadow">
+                                                <td><a href="{{ i.image.url }}" target="_blank">Image</a></td>
+                                                <td><strong>{{ i.title | title }}</strong></td>
+                                                <td>{{ i.priceString }}</td>
+                                                <td class="menu-description">{{ i.description|capfirst | truncatewords:3 }}</td>
+                                                <td>{{ i.category|title }}</td>
+                                                <td>
+                                                    <form action="{% url 'toggle-menu' i.id %}" method="POST"> {%csrf_token%}
+                                                    <label class="switch switch-3d switch-primary mr-3">
+                                                        <input type="checkbox" class="switch-input" name="menutoggle" value="{{i.id}}" {% if i.is_shown == True %} checked {% endif %}>
+                                                        <span class="switch-label"></span>
+                                                        <span class="switch-handle"></span>
+                                                    </label>
+                                                    </form>
+
+                                                </td>
+                                                <td>
+                                                    <div class="table-data-feature">
+                                                            
+                                                        <a href="{% url 'update-menu' i.id %}" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                        </a>
+                                                        <a href="{% url 'delete-menu-item' i.id %}" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                    <br><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MAIN CONTENT-->
+{% endblock %}

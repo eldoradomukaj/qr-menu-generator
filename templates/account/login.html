@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head_title %}- Login{% endblock %}
+
+{% block content %}
+<div id="main" class="wrapper style3">
+	<div class="container">
+		<header class="major">
+			<h2>Log In</h2>
+		</header>
+
+		<!-- Content -->
+			<section id="content">
+				
+				<form method="POST" action="{% url 'account_login' %}" novalidate> {% csrf_token %}
+					<div class="row aln-center mb-5">
+						<div class="col-lg-6 col-md-12">
+							<a style="font-size: 15px;font-weight: bold;padding:3px;" href="{% url 'index' %}"><span class="icon solid fa-arrow-left"></span> Home</a>
+						</div>
+						
+					</div>
+
+					<div class="row gtr-uniform gtr-50 aln-center">
+						<div class="col-lg-6 col-md-12">
+							
+							
+							{% for field in form %}
+							{{ field }}
+
+								{% for error in field.errors %}
+								<span class="help-block">{{ error|escape }}</span>
+								{% endfor %}
+
+							<br>
+							{% endfor %}
+
+							{% for error in form.non_field_errors %}
+							<span class="help-block">{{ error|escape }}</span>
+							{% endfor %}
+							<br>
+
+
+							{% if redirect_field_value %}
+							<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+							{% endif %}
+							<input type="submit" value="Log In" class="primary fit" />
+							<br>
+							<br>
+							<a href="{% url 'account_reset_password' %}">Forgot Password?</a>
+							<p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+						</div>
+
+					</div>
+				</form>
+			</section>
+
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <strong class="card-title">Update Menu</strong>
+            </div>
+            <div class="card-body">
+
+              <form method="POST" enctype="multipart/form-data" action="">{% csrf_token %}
+                {% for field in menu_form %}
+                <div class="form-group">
+                  {% render_field field class="form-control" placeholder=field.label %}
+                </div>
+                {% endfor %}
+
+
+                
+                <div class="form-group">
+                  <select id="id_category" class="form-control" name="category" placeholder="Category" required="">
+                    {% for cat in current_category %}
+                      <option value="{{ cat.category }}" selected="{{ cat.category }}" >{{ cat.category }}</option>
+                    {% endfor %}
+                      
+                      {% for cat in category %}
+                          <option value='{{ cat.cat_name }}'>{{ cat.cat_name }}</option>
+                      {% endfor %}
+                      
+                  </select>
+                </div>
+                <button class="btn btn-outline-success" type="submit">Save</button>
+                
+              </form>
+              
+              
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

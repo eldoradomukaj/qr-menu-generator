@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+		<div id="page-wrapper">
+			<!-- Main -->
+				<div id="main" class="wrapper style3">
+					<div class="container">
+						<header class="major">
+							<h2>Sign Up</h2>
+						</header>
+
+						<!-- Content -->
+							<section id="content">
+								<form method="POST" action=""> {% csrf_token %}
+									<div class="row gtr-uniform gtr-50 align-center">
+										<div class="col-6 col-12-xsmall">
+											<input type="text" name="username" id="username" value="" placeholder="Username" />
+											<br>
+											<input type="text" name="fullname" id="fullname" value="" placeholder="Full name" />
+											<br>
+											<input type="email" name="email" id="email" value="" placeholder="Email" />
+											<br>
+											<input type="password" name="password" id="password" value="" placeholder="Password" />
+											<br>
+											<input type="password" name="password" id="password" value="" placeholder="Confirm password" />
+											<br>
+											<input type="submit" value="Sign Up" class="primary fit" />
+											<br>
+											<br>
+											<p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+										</div>
+
+									</div>
+								</form>
+							</section>
+
+					</div>
+				</div>
+
+
+		</div>
+{% endblock %}

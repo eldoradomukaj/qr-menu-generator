@@ -1,0 +1,74 @@
+{% extends 'dashboard/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load thumbnail %}
+
+{% block content %}
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        {% if messages %}
+                        {% for message in messages %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                            <div class="sufee-alert alert with-close alert-success alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            {% endif %}
+                            
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                            <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            {% endif %}
+
+                        {% endfor %}
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="overview-wrap">
+                                    <h2 class="title-1">Account Overview</h2>
+                                </div>
+                            </div>
+                        </div>
+<br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fa fa-user"></i>
+                                        <strong class="card-title pl-2">Your Profile</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mx-auto d-block">
+                                            <img class="rounded-circle mx-auto d-block" src="{% thumbnail request.user.profile_img 200x200 upscale=True crop='smart' %}" />
+                                            <h5 class="text-sm-center mt-2 mb-1">{{ request.user.first_name | title }} {{ request.user.last_name | title }}</h5>
+                                            <div class="text-sm-center">
+                                                <p>{{ request.user.email }}</p>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="card-text text-sm-center">
+                                            <a href="{% url 'update-account' %}">EDIT</a>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- END MAIN CONTENT-->
+
+{% endblock %}

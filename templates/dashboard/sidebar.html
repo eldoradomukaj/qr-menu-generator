@@ -1,0 +1,29 @@
+ {% load static %}       
+        <!-- MENU SIDEBAR-->
+        <aside class="menu-sidebar d-none d-lg-block">
+            <div class="logo">
+                <a href="{% url 'dashboard' %}">
+                    <img width="50px" height="50px" src="{% static 'images/nomenu_logo.svg' %}" />
+                    <h2 style="float:right;margin-left:10px;color:#071e55;">NoMenu</h2>
+                </a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li class="{{ dashboard_page }}">
+                            <a href="{% url 'dashboard' %}">
+                                <i class="fa fa-desktop"></i>Dashboard</a>
+                        </li>
+                        <li class="{{ restaurant_page }}">
+                            <a href="{% url 'restaurant' %}">
+                                <i class="fa fa-utensils"></i>Restaurant</a>
+                        </li>
+                        <li class="{{ managemenu_page }}">
+                            <a href="{% url 'managemenu' %}">
+                                <i class="fa fa-book"></i>Menu</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!-- END MENU SIDEBAR-->

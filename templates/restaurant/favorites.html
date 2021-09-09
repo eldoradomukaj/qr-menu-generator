@@ -1,0 +1,83 @@
+{% extends 'restaurant/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}{{ obj.name }}{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    var favoritesURL = "{% url 'add-favorites' pk=obj.cust_pk %}";
+</script>
+<script src="{% static 'restaurant/favorites.js' %}"></script>
+{% endblock %}
+
+{% block top-bar %} 
+<div class="topbar">
+    <div class="container">
+      <a href="#" data-toggle="modal" data-target="#info-modal"><i style="font-size: 20px;" class="fas fa-info-circle"></i></a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <br/>
+            <a href="javascript:history.go(-1)"><i class="fas fa-arrow-left"></i></a>
+            <br/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="text-center">My Favorites</h4>
+            <hr>
+        </div>
+    </div>
+
+    {% for fav_item in fav_items %}
+
+        <div class="card mb-2 w-100 fav-card">
+            <div class="row no-gutters">
+
+                    
+                    <div class="col-auto">
+                        <a href="{% url 'item' fav_item.restaurant.pk fav_item.item.category.slug fav_item.item.id %}" style="color:black;text-decoration: none;">
+                        {% if fav_item.item.image_url %}
+                        <div style="width:100px;height: 100px;background:url('{{ fav_item.item.image_url }}') no-repeat center;background-size: cover;" class="text-center"></div>
+                        {% elif fav_item.item.image %}
+                        <img src="{% thumbnail fav_item.item.image 100x100 upscale=True crop='smart' %}">
+                        {% else %}
+                        
+                        {% endif %}
+                        </a>
+                    </div>
+                
+
+                <div class="col">
+                    <a href="{% url 'item' fav_item.restaurant.pk fav_item.item.category.slug fav_item.item.id %}" style="color:black;text-decoration: none;">
+                        <div class="card-block px-2 mt-2">
+                            <p class="card-title mb-1 item-name" style="font-weight: bold;">{{ fav_item.item.title | title }}</p>
+                            {% if fav_item.item.price %}
+                                <p class="mb-0" style="font-size: 12px;">${{ fav_item.item.price }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+
+                    <a href="" style="position: absolute;bottom: 3px;right: 2px;padding-right:15px;font-size:13px;" class="remove-fav float-right" data-id="{{ fav_item.id }}">Remove</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+    <div class="no-items">
+        <p>You haven't added anything yet!</p>
+    </div>
+    
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block modal-content %}
+{% include 'restaurant/info_modal.html' %}
+{% endblock modal-content %}

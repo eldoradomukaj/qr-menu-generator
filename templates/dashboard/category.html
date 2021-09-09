@@ -1,0 +1,223 @@
+{% extends 'dashboard/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extra_scripts %}
+<script>
+var csrf_token = "{{ csrf_token }}";
+var hideCategoryURL = "{% url 'hide-category' %}";
+var updatePosURL = "{% url 'update-position' pk=0 %}";
+var deleteCatItemURL = "{% url 'delete-cat-item' pk=0 %}";
+var updateCategoryURL = '{% url "update-category" %}';
+
+var publishMenuURL = "{% url 'publish-menu' %}"
+</script>
+
+<script src="{% static 'dashboard/js/category.js' %}"></script>
+
+<script>
+    $(document).ready(() => {
+        $('.category-group').hide();
+
+        $('.testing').click(function(event){
+            event.preventDefault();
+            var group = $(this).closest('.bottom-right').find('.category-group');
+
+            group.toggle('slide');
+        })
+    });
+</script>
+{% endblock %}
+{% block content %}
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        {% if messages %}
+                        {% for message in messages %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                            <div class="sufee-alert alert with-close alert-success alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            {% endif %}
+                            
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                            <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            {% endif %}
+
+                        {% endfor %}
+                        {% endif %}
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                    <h2 class="title-1">Manage Menu</h2>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3 text-center">
+                            <div class="col-md-12">
+                                <span style="color:black;">
+                                    Publish Menu:                                         
+                                    <label class="switch switch-3d switch-success">
+                                        <input class="publish-menu switch-input" type="checkbox" data-pk="{{restaurant.pk}}" {% if restaurant.is_live == True %} checked {% endif %}>
+                                        <span class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mb-5">
+                            <div class="col-lg-12 col-md-12">
+                                <button data-toggle="modal" data-target="#addCategoryModal" class="au-btn au-btn-icon au-btn--blue float-right"><i class="zmdi zmdi-plus"></i>add category</button>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12 category-tiles">
+                            {% for category in categories %}
+                                <div id="id_{{category.id}}" class="card category-card" value="{{category.id}}" data-position="{{category.position}}" {% if category.cat_img %} style="background-image: url({% static 'css/images/overlay.png' %}), url('{{ category.cat_img.url }}');"{% endif %}>
+                                    <div class="top-left">
+                                        <div class="btn-group-vertical">
+                                            <button id="moveUp" value="{{category.id}}" type="button" class="btn btn-secondary" style="margin-bottom: 5px;"><i class="fas fa-angle-double-up"></i></button>
+                                            <button id="moveDown" value="{{category.id}}" type="button" class="btn btn-secondary"><i class="fas fa-angle-double-down"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="bottom-right">
+                                        <div class="btn-group category-group" role="group" style="z-index: 1000;">
+                                            <a href="{% url 'category-add' id=category.slug %}" class="btn btn-secondary"><i class="fas fa-bars"></i></a>
+
+                                            <label class="item-hider" style="margin-bottom:0;border-radius: 0;-webkit-border-radius: 0;">
+                                                <input type="checkbox" class="hide-category" value="{{category.id}}" name="categoryhide" {% if category.is_shown %} checked {% endif %}>
+                                                <span class="btn btn-secondary far fa-eye-slash unchecked"></span>
+                                                <i class="btn btn-secondary fas fa-eye checked"></i>
+                                                
+                                            </label>
+
+                                            <button class="update-category-modal btn btn-secondary" data-pk="{{category.pk}}" type="button"><i data-toggle="tooltip" data-placement="top" title="Edit Menu" class="far fa-edit"></i></button>
+                                            <button data-toggle="modal" data-target="#deleteCategoryModal" class="delete-category-modal btn btn-secondary" data-id="{{category.pk}}" type="button"><i class="far fa-trash-alt"></i></button>
+                                        </div>
+
+                                        <a href="#"> <i class="testing icon-circle fas fa-ellipsis-v"></i> </a>
+                                    </div>
+
+                                    <h3 class="bottom-left" style="color:white;">{{ category.cat_name | title }}</h3>
+                                    {% if not category.cat_img %}
+                                    <p class="card-center">No category image</p>
+                                    {% endif %}
+                                </div>
+
+                            {% endfor %}
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- END MAIN CONTENT-->
+
+<!-- UPDATE modal-->
+<div class="modal fade" id="updateCategoryModal" value="" tabindex="-1" role="dialog" aria-labelledby="updateCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateCategoryModal">Category Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="categoryUpdateContainer">
+
+            </div>
+
+            
+        </div>
+        
+    </div>
+</div>
+<!-- end modal-->
+
+
+<!-- DELETE modal -->
+<div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCategoryModal">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <p>Are you sure you want to delete category?</p>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelButton" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" id="confirmCatDelete" class="btn btn-primary" value="">Delete</button>
+            
+
+            
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal-->
+
+<!-- ADD CATEGORY modal-->
+<div class="modal fade" id="addCategoryModal" value="" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCategoryModal">Add a Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{% url 'managemenu' %}" method="POST">
+                    {% csrf_token %}
+
+                    {% for field in cat_form %}
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label class="form-control-label">Category </label>
+                        </div>
+                        <div class="col-6 col-sm-6">
+                            {% render_field field class="form-control" %}
+                        </div>
+                        <div class="col"></div>
+
+                    </div>
+                    {% endfor %}
+                    <div class="newRow"></div>
+                    <button style="color:#4272d7;" class="add-category-field">
+                        <i class="fa fa-plus"></i>
+                        Add Category
+                    </button>
+
+                </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline-success" type="submit" style="float:right;">Add</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+<!-- end modal-->
+{% endblock %}
